@@ -21,6 +21,17 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_id',
+        'companyEmail',
+        'companyName',
+        'companyLogo',
+        'fname',
+        'lname',
+        'phone',
+        'wpNumber',
+        'city',
+        'postal_code',
+        'country'
     ];
 
     /**
