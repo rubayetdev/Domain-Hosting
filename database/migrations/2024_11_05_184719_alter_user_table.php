@@ -13,16 +13,7 @@ return new class extends Migration
     {
         Schema::table('users',function (Blueprint $table){
             $table->unsignedBigInteger('user_id')->unique();
-            $table->string('companyEmail')->unique();
-            $table->string('companyName');
-            $table->string('companyLogo');
-            $table->string('fname');
-            $table->string('lname');
-            $table->string('phone')->unique();
-            $table->string('wpNumber')->unique();
-            $table->string('city');
-            $table->string('postal_code');
-            $table->string('country');
+
         });
     }
 

@@ -91,6 +91,9 @@
                 <input type="submit" value="Register">
             </div>
         </form>
+            <div class="register-link">
+                <p>Already have an account? <a href="{{ route('login') }}">Login here</a></p>
+            </div>
     </div>
 </div>
 </body>
