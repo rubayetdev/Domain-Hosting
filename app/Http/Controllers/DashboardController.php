@@ -14,4 +14,12 @@ class DashboardController extends Controller
         }
         return view('user.dashboard');
     }
+
+    public function profile(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        return view('user.profile');
+    }
 }

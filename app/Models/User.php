@@ -24,7 +24,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'user_id'
     ];
-
+    public function companyInfo()
+    {
+        return $this->hasOne(CompanyInfo::class, 'user_id', 'user_id');
+    }
 
 
     /**

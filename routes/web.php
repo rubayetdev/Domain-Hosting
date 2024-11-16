@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginRegistration;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -24,5 +25,8 @@ Route::post('/email/verification-notification',[LoginRegistration::class,'resend
 
 //Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
     Route::post('/logout', [LoginRegistration::class, 'logout'])->name('logout');
+
+Route::put('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
 //});

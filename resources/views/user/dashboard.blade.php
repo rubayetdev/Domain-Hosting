@@ -1,6 +1,9 @@
-{{Auth::user()->name}}
+@extends('app')
 
-<form action="{{ route('logout') }}" method="post">
-    @csrf
-    <button type="submit">Logout</button>
-</form>
+@section('title','Dashboard')
+
+@section('content')
+
+
+
+@endsection
