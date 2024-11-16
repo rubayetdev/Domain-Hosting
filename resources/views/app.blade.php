@@ -14,7 +14,7 @@
 
     <link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-    <title>@yield('title', 'My Laravel App')</title>
+    <title>@yield('title', config('app.name'))</title>
 
     <link href="{{('template/css/app.css')}}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
     <nav id="sidebar" class="sidebar js-sidebar">
         <div class="sidebar-content js-simplebar">
             <a class="sidebar-brand" href="{{ route('dashboard') }}">
-                <span class="align-middle">AdminKit</span>
+                <span class="align-middle">{{config('app.name')}}</span>
             </a>
 
             <ul class="sidebar-nav">
