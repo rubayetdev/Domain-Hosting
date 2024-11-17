@@ -8,8 +8,11 @@
         <h1>
             Order List
         </h1>
-
-        <table class="table table-hover my-0">
+        <div class="row">
+            <div class="col-12 col-md-8 col-lg-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <table class="table table-hover my-0">
             <thead>
             <tr>
                 <th>Domain</th>
@@ -36,5 +39,9 @@
             </tr>
             </tbody>
         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 @endsection

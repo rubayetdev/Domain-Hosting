@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Twilio\Rest\Client;
 class LoginRegistration extends Controller
 {
@@ -22,11 +23,11 @@ class LoginRegistration extends Controller
         $credential = $request->only('email', 'password');
         $remember = $request->has('remember');
 
-        $adminEmail = "trocloudbd@gmail.com";
-        $adminPassword = "147258369";
+        $adminEmail = env('ADMIN_GMAIL');
+        $adminPassword = env('ADMIN_PASSWORD');
 
-        if ($credential['email'] === $adminEmail && $credential['password'] === $adminPassword) {
-
+        if ($credential['email'] === $adminEmail && Hash::check($credential['password'], $adminPassword)) {
+            $request->session()->put('is_admin', true);
             return redirect()->route('admin.dashboard');
         }
         if (Auth::attempt($credential,$remember)){
@@ -153,6 +154,14 @@ class LoginRegistration extends Controller
 
         session()->flush();
 
+        return redirect()->route('register');
+    }
+
+    public function adminLogout(Request $request)
+    {
+        $request->session()->forget('is_admin');
+        $request->session()->invalidate();
+        $request->session()->flush();
         return redirect()->route('register');
     }
 }

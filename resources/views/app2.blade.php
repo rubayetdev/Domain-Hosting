@@ -18,6 +18,8 @@
 
     <link href="{{asset('template/css/app.css')}}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+
 </head>
 <div class="wrapper">
     <nav id="sidebar" class="sidebar js-sidebar">
@@ -43,9 +45,9 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="pages-sign-in.html">
-                        <i class="align-middle" data-feather="log-in"></i> <span class="align-middle">Sign In</span>
+                <li class="sidebar-item {{ Request::is('admin/domains/store') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('admin.domain.store') }}">
+                        <i class="align-middle" data-feather="globe"></i> <span class="align-middle">All Domains</span>
                     </a>
                 </li>
 
@@ -282,7 +284,7 @@
                             <a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="align-middle me-1" data-feather="settings"></i> Settings & Privacy</a>
                             <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="help-circle"></i> Help Center</a>
                             <div class="dropdown-divider"></div>
-                            <form action="{{ route('logout') }}" method="post">
+                            <form action="{{ route('admin.logout') }}" method="post">
                                 @csrf
                                 <button class="dropdown-item" type="submit">Log out</button>
                             </form>
