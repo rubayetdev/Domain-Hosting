@@ -22,12 +22,20 @@ class LoginRegistration extends Controller
         $credential = $request->only('email', 'password');
         $remember = $request->has('remember');
 
+        $adminEmail = "trocloudbd@gmail.com";
+        $adminPassword = "147258369";
+
+        if ($credential['email'] === $adminEmail && $credential['password'] === $adminPassword) {
+
+            return redirect()->route('admin.dashboard');
+        }
         if (Auth::attempt($credential,$remember)){
             $user = Auth::user();
 
             //return $this->authenticated($request, $user);
             return redirect()->route('dashboard');
         }
+
         else
             return redirect()->back()->withErrors(['email' => 'Invalid email or password.'])->withInput();
     }

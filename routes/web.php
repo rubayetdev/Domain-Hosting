@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginRegistration;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\Dashboard;
+use App\Http\Controllers\Admin\DomainControll;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -30,3 +32,8 @@ Route::post('/email/verification-notification',[LoginRegistration::class,'resend
 
 Route::put('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
 //});
+
+Route::prefix('/admin')->group(function(){
+    Route::get('/index', [Dashboard::class, 'index'])->name('admin.dashboard');
+    Route::get('/domains/index', [DomainControll::class, 'index'])->name('admin.domain');
+});
