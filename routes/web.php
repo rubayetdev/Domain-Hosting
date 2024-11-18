@@ -8,6 +8,7 @@ use App\Http\Controllers\OrderDomain;
 use App\Http\Controllers\Admin\Dashboard;
 use App\Http\Controllers\Admin\DomainControll;
 use App\Http\Controllers\Admin\ManageDomain;
+use App\Http\Controllers\UddoktapayController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Middleware\AdminSession;
 
@@ -36,6 +37,12 @@ use App\Http\Middleware\AdminSession;
     Route::put('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/order',[OrderDomain::class, 'index'])->name('order');
     Route::get('/order/{id}',[OrderDomain::class,'show'])->name('order.show');
+    Route::post('/order/store',[OrderDomain::class,'store'])->name('order.store');
+
+    Route::post( 'pay', [UddoktapayController::class, 'pay'] )->name( 'uddoktapay.pay' );
+    Route::get( 'success', [UddoktapayController::class, 'success'] )->name( 'uddoktapay.success' );
+    Route::get( 'cancel', [UddoktapayController::class, 'cancel'] )->name( 'uddoktapay.cancel' );
+    Route::post( 'webhook', [UddoktapayController::class, 'webhook'] )->name( 'uddoktapay.webhook' );
 //});
 
 Route::prefix('/admin')->group(function(){

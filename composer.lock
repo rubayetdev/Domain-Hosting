@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8c19a2a4820345f0b7df11341e61f38",
+    "content-hash": "59eb550ccfddfc5c5770702905f9a217",
     "packages": [
         {
             "name": "brick/math",
@@ -5447,6 +5447,46 @@
                 "source": "https://github.com/twilio/twilio-php/tree/8.3.8"
             },
             "time": "2024-11-15T07:19:40+00:00"
+        },
+        {
+            "name": "uddoktapay/laravel-sdk",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/UddoktaPay/LaravelSDK.git",
+                "reference": "15a716fc474aa7007de9228c79ebcd7cf859933c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/UddoktaPay/LaravelSDK/zipball/15a716fc474aa7007de9228c79ebcd7cf859933c",
+                "reference": "15a716fc474aa7007de9228c79ebcd7cf859933c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "UddoktaPay\\LaravelSDK\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "UddoktaPay Team",
+                    "email": "info@uddoktapay.com"
+                }
+            ],
+            "description": "UddoktaPay offers a range of payment automation solutions for small entrepreneurs in Bangladesh.",
+            "support": {
+                "issues": "https://github.com/UddoktaPay/LaravelSDK/issues",
+                "source": "https://github.com/UddoktaPay/LaravelSDK/tree/1.0.1"
+            },
+            "time": "2024-02-12T09:48:19+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
