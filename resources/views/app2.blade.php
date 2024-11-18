@@ -51,9 +51,9 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="pages-sign-up.html">
-                        <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Sign Up</span>
+                <li class="sidebar-item {{ Request::is('admin/customer/customerList') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('admin.customer.list') }}">
+                        <i class="align-middle" data-feather="user"></i> <span class="align-middle">Customers</span>
                     </a>
                 </li>
 
@@ -544,6 +544,29 @@
             nextArrow: "<span title=\"Next month\">&raquo;</span>",
             defaultDate: defaultDate
         });
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism.min.css" rel="stylesheet" />
+
+<script>
+
+    document.getElementById('epp_code').addEventListener('input', function() {
+        var code = document.getElementById('epp_code').value;
+        document.getElementById('codeDisplay').textContent = code;
+        Prism.highlightElement(document.getElementById('codeDisplay'));
+    });
+
+
+    document.getElementById('copyButton').addEventListener('click', function() {
+        var codeText = document.getElementById('epp_code').value;
+        navigator.clipboard.writeText(codeText)
+            .then(function() {
+                alert('Code copied to clipboard!');
+            })
+            .catch(function(error) {
+                console.error('Error copying code: ', error);
+            });
     });
 </script>
 </html>

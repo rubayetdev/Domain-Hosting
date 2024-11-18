@@ -55,32 +55,6 @@
                                 </div>
 
 
-                                <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
-                                <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism.min.css" rel="stylesheet" />
-
-                                <script>
-
-                                    document.getElementById('epp_code').addEventListener('input', function() {
-                                        var code = document.getElementById('epp_code').value;
-                                        document.getElementById('codeDisplay').textContent = code;
-                                        Prism.highlightElement(document.getElementById('codeDisplay'));
-                                    });
-
-
-                                    document.getElementById('copyButton').addEventListener('click', function() {
-                                        var codeText = document.getElementById('epp_code').value;
-                                        navigator.clipboard.writeText(codeText)
-                                            .then(function() {
-                                                alert('Code copied to clipboard!');
-                                            })
-                                            .catch(function(error) {
-                                                console.error('Error copying code: ', error);
-                                            });
-                                    });
-                                </script>
-
-
-
 
 
                             </form>

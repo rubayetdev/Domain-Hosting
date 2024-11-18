@@ -44,5 +44,6 @@ Route::prefix('/admin')->group(function(){
     Route::put('/domains/update/{id}', [DomainControll::class, 'update'])->name('admin.domain.update');
     Route::delete('/domains/destroy/{id}', [DomainControll::class, 'destroy'])->name('admin.domain.destroy');
     Route::get('/domains/manageDomain/{id}',[ManageDomain::class,'index'])->name('admin.domain.manage');
+    Route::get('/customer/customerList',[ManageDomain::class,'customerList'])->name('admin.customer.list');
     Route::post('/logout', [LoginRegistration::class, 'adminLogout'])->name('admin.logout');
 });
