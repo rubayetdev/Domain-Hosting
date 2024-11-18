@@ -43,9 +43,9 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="pages-sign-in.html">
-                        <i class="align-middle" data-feather="log-in"></i> <span class="align-middle">Sign In</span>
+                <li class="sidebar-item {{ Request::is('order') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('order') }}">
+                        <i class="align-middle" data-feather="globe"></i> <span class="align-middle">Order Domain</span>
                     </a>
                 </li>
 
@@ -321,7 +321,7 @@
         </footer>
     </div>
 </div>
-<script src="{{('template/js/app.js')}}"></script>
+<script src="{{asset('template/js/app.js')}}"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

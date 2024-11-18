@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginRegistration;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OrderDomain;
 use App\Http\Controllers\Admin\Dashboard;
 use App\Http\Controllers\Admin\DomainControll;
 use App\Http\Controllers\Admin\ManageDomain;
@@ -33,6 +34,8 @@ use App\Http\Middleware\AdminSession;
     Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
     Route::post('/logout', [LoginRegistration::class, 'logout'])->name('logout');
     Route::put('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/order',[OrderDomain::class, 'index'])->name('order');
+    Route::get('/order/{id}',[OrderDomain::class,'show'])->name('order.show');
 //});
 
 Route::prefix('/admin')->group(function(){
