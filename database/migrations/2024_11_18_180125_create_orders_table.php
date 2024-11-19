@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('order_id')->unique();
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('user_id')->on('users');
             $table->string('domain_id');

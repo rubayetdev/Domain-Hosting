@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('payment_id');
             $table->unsignedBigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders');
+            $table->foreign('order_id')->references('order_id')->on('orders');
             $table->decimal('amount', 15, 2);
             $table->decimal('fee', 15, 2);
             $table->decimal('charged_amount', 15, 2);

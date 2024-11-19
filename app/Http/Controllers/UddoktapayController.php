@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Library\UddoktaPay;
+use App\Models\Domain;
 use App\Models\Order;
+use App\Models\PaymentInfo;
 use App\Models\Test;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -83,6 +86,8 @@ class UddoktapayController extends Controller {
 //        dd($invoice);
 //        $user = User::find($userid);
 //        dd(Auth::user()->user_id);
+
+
         $requestData = [
             'full_name' => Auth::user()->name, // Replace with actual user name
             'email' => Auth::user()->email, // Replace with actual user email
@@ -146,14 +151,24 @@ class UddoktapayController extends Controller {
         return response('Database Updated', 200);
     }
 
-
-
-
-
-
-
     public function success(Request $request) {
-        $invoiceId = $request->invoice_id; // Retrieve invoice ID from query parameter
+        $invoiceId = $request->invoice_id;
+        $type = session('type');
+        $amount = session('amount');
+        $invoice = session('invoice');
+        $domainid = session('domain_id');
+        $now = Carbon::now('Asia/Dhaka');
+        $domainid = session('domain_id');
+        $date = Domain::where('domain_id',$domainid)->first();
+
+        if ($date) {
+
+            $expireAt = $now->addMonths($date->expiration_months)->format('Y-m-d');
+//            dd($expireAt);
+        } else {
+            $expireAt = null; // Handle case where no domain is found
+        }
+
 
 
         try{
@@ -170,15 +185,34 @@ class UddoktapayController extends Controller {
 
         if (isset($response['status']) && $response['status'] === 'COMPLETED') {
             // Update order status based on the invoice ID
-            Order::where('invoice_id', $response['metadata']['invoice_id'])->update([
-                'payment_method' => $response['payment_method'],
-                'order_status' => 'Processing',
-                'transaction_id' => $response['transaction_id'],
+            Order::create([
+                'order_id'=> $invoice,
+                'customer_id'=>Auth::user()->user_id,
+                'domain_id'=>$domainid,
+                'register_date'=>$now->format('Y-m-d'),
+                'expire_date'=>$expireAt,
+                'domain_type'=>$type,
+                'price'=>$amount,
+                'status'=>'In Progress'
+            ]);
+
+            PaymentInfo::create([
+                'payment_id'=>$request->invoice_id,
+                'order_id'=>$invoice,
+                'amount'=>$amount,
+                'fee'=>$response['fee'],
+                'charged_amount'=>$response['charged_amount'],
+                'payment_method'=>$response['payment_method'],
+                'sender_number'=>$response['sender_number'],
+                'transaction_id'=>$response['transaction_id'],
+                'date'=>$response['date'],
+                'status'=>$response['status'],
+//                'message'=>$response['message']
             ]);
 //            dd($response['metadata']['invoice_id']);
             $invoice = $response['metadata']['invoice_id'];
 //            dd($invoice);
-            return redirect()->route('invoice',['id'=>$invoice]);
+            return redirect()->route('dashboard');
         } else {
             return 'Payment verification failed.';
         }

@@ -48,6 +48,7 @@
                                     <!-- Domain Registration -->
                                     <form action="{{ route('order.store') }}" method="POST" class="d-inline">
                                         @csrf
+                                        <input type="hidden" name="id" value="{{$domains->domain_id}}">
                                         <input type="hidden" name="type" value="registration">
                                         <input type="hidden" name="amount" value="{{ $domains->domain_price }}">
                                         <button type="submit" class="btn btn-primary">Pay for Domain Registration</button>
@@ -56,6 +57,7 @@
                                     <!-- Domain Transfer -->
                                     <form action="{{ route('order.store') }}" method="POST" class="d-inline">
                                         @csrf
+                                        <input type="hidden" name="id" value="{{$domains->domain_id}}">
                                         <input type="hidden" name="type" value="transfer">
                                         <input type="hidden" name="amount" value="{{ $domains->domain_transfer_price }}">
                                         <button type="submit" class="btn btn-secondary">Pay for Domain Transfer</button>
@@ -64,6 +66,7 @@
                                     <!-- Reseller Domain -->
                                     <form action="{{ route('order.store') }}" method="POST" class="d-inline">
                                         @csrf
+                                        <input type="hidden" name="id" value="{{$domains->domain_id}}">
                                         <input type="hidden" name="type" value="reseller_registration">
                                         <input type="hidden" name="amount" value="{{ $domains->reseller_domain_price }}">
                                         <button type="submit" class="btn btn-success">Pay for Reseller Domain</button>
@@ -72,6 +75,7 @@
                                     <!-- Reseller Transfer -->
                                     <form action="{{ route('order.store') }}" method="POST" class="d-inline">
                                         @csrf
+                                        <input type="hidden" name="id" value="{{$domains->domain_id}}">
                                         <input type="hidden" name="type" value="reseller_transfer">
                                         <input type="hidden" name="amount" value="{{ $domains->reseller_domain_transfer_price }}">
                                         <button type="submit" class="btn btn-warning">Pay for Reseller Transfer</button>

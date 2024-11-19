@@ -49,7 +49,9 @@ class OrderDomain extends Controller
         $amount =  $request->input('amount');
 
         session(['type' => $request->input('type')]);
+        session(['domain_id' => $request->input('id')]);
         session(['invoice' => $order]);
+        session(['amount' => $amount]);
 
         return $this->uddoktapay->pay(new Request(['total' => $amount]));
     }
