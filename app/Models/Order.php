@@ -14,6 +14,7 @@ class Order extends Model
         'expire_date',
         'domain_type',
         'price',
-        'status'
+        'status',
+        'payment_id'
     ];
 }

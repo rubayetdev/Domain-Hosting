@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
-
-            $table->unsignedBigInteger('order_id')->unique()->change();
-
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('payment_id');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('payment_id');
+        });
     }
 };

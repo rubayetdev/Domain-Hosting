@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Library\UddoktaPay;
 use App\Models\Domain;
 use App\Models\Order;
-use App\Models\PaymentInfo;
-use App\Models\Test;
+use App\Models\PaymentHistory;
+
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,61 +14,6 @@ use Illuminate\Support\Facades\Auth;
 
 
 class UddoktapayController extends Controller {
-
-
-
-//    public function insertPayment(Request $request)
-//    {
-//
-//        $userid = $request->input('id');
-//        $shipping = $request->input('address');
-//        $projectid = $request->input('city');
-//        $projectname = $request->input('zip');
-//        $service = $request->input('paymentBkash');
-//        $amount = $request->input('total');
-//        $order = $request->input('paymentCOD');
-//        $invoice = rand(1000,9999);
-//
-//        $request->session()->put('id', $userid);
-////        $request->session()->put('project_id', $projectid);
-//        $request->session()->put('invoice',$invoice);
-//
-//        if ($order) {
-//            Order::where('user_id', $userid)->where('order_status', 'Pending')->update([
-//                'invoice_id' => $invoice,
-//                'order_status' => 'Processing',
-//                'payment_method' => 'COD',
-//                'shipping_address' => $shipping,
-//                'shipping_city' => $projectid,
-//                'zip_code' => $projectname,
-//            ]);
-//
-//            return redirect()->back();
-//        }
-//
-//        elseif ($service) {
-//
-//            Order::where('user_id', $userid)->where('order_status', 'Pending')->update([
-//                'invoice_id' => $invoice,
-//
-//
-//                'shipping_address' => $shipping,
-//                'shipping_city' => $projectid,
-//                'zip_code' => $projectname,
-//            ]);
-//
-//
-//            return $this->pay($request);
-//        }
-//    }
-
-    // public function show() {
-    //     $amount = \request('amounts');
-    //     return view( 'uddoktapay.payment-form',['amount'=>$amount]);
-    // }
-
-
-
 
     public function pay( Request $request) {
 
@@ -157,6 +102,7 @@ class UddoktapayController extends Controller {
         $amount = session('amount');
         $invoice = session('invoice');
         $domainid = session('domain_id');
+        $registerDate = Carbon::now('Asia/Dhaka')->format('Y-m-d');
         $now = Carbon::now('Asia/Dhaka');
         $domainid = session('domain_id');
         $date = Domain::where('domain_id',$domainid)->first();
@@ -189,14 +135,15 @@ class UddoktapayController extends Controller {
                 'order_id'=> $invoice,
                 'customer_id'=>Auth::user()->user_id,
                 'domain_id'=>$domainid,
-                'register_date'=>$now->format('Y-m-d'),
+                'register_date'=>$registerDate,
                 'expire_date'=>$expireAt,
                 'domain_type'=>$type,
                 'price'=>$amount,
-                'status'=>'In Progress'
+                'status'=>'In Progress',
+                'payment_id'=>$request->invoice_id
             ]);
 
-            PaymentInfo::create([
+            PaymentHistory::create([
                 'payment_id'=>$request->invoice_id,
                 'order_id'=>$invoice,
                 'amount'=>$amount,
@@ -212,13 +159,21 @@ class UddoktapayController extends Controller {
 //            dd($response['metadata']['invoice_id']);
             $invoice = $response['metadata']['invoice_id'];
 //            dd($invoice);
-            return redirect()->route('dashboard');
+            return redirect()->route('order.invoice',['id'=>$invoice]);
         } else {
             return 'Payment verification failed.';
         }
     }
 
-
+    public function invoice($id)
+    {
+        $order = Order::where('orders.order_id',$id)
+            ->join('domains','domains.domain_id','=','orders.domain_id')
+            ->join('company_infos','company_infos.user_id','=','orders.customer_id')
+            ->join('payment_histories','payment_histories.order_id','=','orders.order_id')
+            ->first();
+        return view('user.invoice',['order'=>$order]);
+    }
 
     /**
      * Cancel URL

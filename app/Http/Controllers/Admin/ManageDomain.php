@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Domain;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,7 @@ class ManageDomain extends Controller
 {
     public function index(string $id)
     {
-        $domain = Domain::find($id);
+        $domain = Order::find($id);
         return view('admin.domains.manageDomain',['domain'=>$domain]);
     }
 

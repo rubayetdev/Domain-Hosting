@@ -38,6 +38,7 @@ use App\Http\Middleware\AdminSession;
     Route::get('/order',[OrderDomain::class, 'index'])->name('order');
     Route::get('/order/{id}',[OrderDomain::class,'show'])->name('order.show');
     Route::post('/order/store',[OrderDomain::class,'store'])->name('order.store');
+    Route::get('/order/invoice/{id}',[UddoktapayController::class,'invoice'])->name('order.invoice');
 
     Route::post( 'pay', [UddoktapayController::class, 'pay'] )->name( 'uddoktapay.pay' );
     Route::get( 'success', [UddoktapayController::class, 'success'] )->name( 'uddoktapay.success' );

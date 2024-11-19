@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PaymentInfo extends Model
+class PaymentHistory extends Model
 {
     protected $fillable=[
         'payment_id',
@@ -16,7 +16,6 @@ class PaymentInfo extends Model
         'sender_number',
         'transaction_id',
         'date',
-        'status',
-        'message'
+        'status'
     ];
 }
