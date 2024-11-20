@@ -18,15 +18,21 @@
             </tr>
             </thead>
             <tbody>
+            @foreach($orders as $order)
             <tr>
-                <td>Hi</td>
-                <td class="d-none d-xl-table-cell">Nov 17, 2024</td>
-                <td class="d-none d-xl-table-cell">Nov 17, 2024</td>
+                <td>{{$order->domain_name}}</td>
+                <td class="d-none d-xl-table-cell">{{$order->register_date}}</td>
+                <td class="d-none d-xl-table-cell">{{$order->expire_date}}</td>
                 <td>
-                    <a href="" class="btn btn-primary">Manage Domain</a>
-                    <span class="badge bg-warning">In progress</span>
+                    @if($order->status == 'In Progress')
+                        <span class="badge bg-warning">In progress</span>
+                    @else
+                        <a href="{{ route('domainManage',['id'=>$order->id]) }}" class="btn btn-primary">Manage Domain</a>
+                    @endif
+
                 </td>
             </tr>
+            @endforeach
             </tbody>
         </table>
     </main>

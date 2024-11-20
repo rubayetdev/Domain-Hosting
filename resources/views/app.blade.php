@@ -49,9 +49,9 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="pages-sign-up.html">
-                        <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Sign Up</span>
+                <li class="sidebar-item {{ Request::is('renewDomain') ? 'active' : '' }}">
+                    <a class="sidebar-link" href="{{ route('renewDomain') }}">
+                        <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">Renew Domain</span>
                     </a>
                 </li>
 

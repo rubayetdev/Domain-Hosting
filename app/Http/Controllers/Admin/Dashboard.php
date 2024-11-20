@@ -10,7 +10,7 @@ class Dashboard extends Controller
 {
     public function index()
     {
-        $order = Order::join('domains','domains.domain_id','=','orders.domain_id')->get();
+        $order = Order::join('domains','domains.domain_id','=','orders.domain_id')->where('status','In Progress')->get();
         return view('admin.index',['order'=>$order]);
     }
 }

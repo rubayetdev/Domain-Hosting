@@ -39,6 +39,10 @@ use App\Http\Middleware\AdminSession;
     Route::get('/order/{id}',[OrderDomain::class,'show'])->name('order.show');
     Route::post('/order/store',[OrderDomain::class,'store'])->name('order.store');
     Route::get('/order/invoice/{id}',[UddoktapayController::class,'invoice'])->name('order.invoice');
+    Route::post('/manageDomain',[ManageDomain::class, 'store'])->name('manageDomain');
+    Route::get('/domainManage/{id}',[DashboardController::class,'domainManage'])->name('domainManage');
+    Route::get('/renewDomain',[DashboardController::class,'renewDomain'])->name('renewDomain');
+    Route::post('/payDomain',[DashboardController::class,'payDomain'])->name('pay');
 
     Route::post( 'pay', [UddoktapayController::class, 'pay'] )->name( 'uddoktapay.pay' );
     Route::get( 'success', [UddoktapayController::class, 'success'] )->name( 'uddoktapay.success' );

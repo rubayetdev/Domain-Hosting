@@ -1,4 +1,4 @@
-@extends('app2')
+@extends('app')
 
 @section('title','Manage Domain')
 
@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="epp_code">Epp Code</label>
-                                    <textarea class="form-control" name="epp_code">@if(isset($check->eppcode)){{$check->eppcode}}@endif</textarea>
+                                    <textarea class="form-control" name="epp_code" readonly>@if(isset($check->eppcode)){{$check->eppcode}}@endif</textarea>
                                 </div>
 
 

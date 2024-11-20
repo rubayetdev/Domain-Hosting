@@ -16,6 +16,7 @@ class PaymentHistory extends Model
         'sender_number',
         'transaction_id',
         'date',
-        'status'
+        'status',
+        'renew_order_table'
     ];
 }
