@@ -111,22 +111,18 @@ class UddoktapayController extends Controller {
 
         if ($type == 'renew'){
             if ($date) {
-                $expireAt = $now->addMonths($date->expiration_months)->format('Y-m-d');
-            //dd($expireAt);
+                $renew = $now->addMonths($date->expiration_months)->format('Y-m-d');
             } else {
-                $expireAt = null; // Handle case where no domain is found
+                $renew = null;
             }
         }
         else {
             if ($date) {
                 $expireAt = $now->addMonths($date->expiration_months)->format('Y-m-d');
-//            dd($expireAt);
             } else {
-                $expireAt = null; // Handle case where no domain is found
+                $expireAt = null;
             }
         }
-
-
 
         try{
         $apiKey = config('uddoktapay.api_key');
@@ -141,73 +137,63 @@ class UddoktapayController extends Controller {
 
 
         if (isset($response['status']) && $response['status'] === 'COMPLETED') {
-//            if ($type == 'renew'){
-//                RenewDomain::create([
-//                    'order_id'=> $invoice,
-//                    'customer_id'=>Auth::user()->user_id,
-//                    'domain_id'=>$domainid,
-//                    'register_date'=>$registerDate,
-//                    'expire_date'=>$expireAt,
-//                    'domain_type'=>$type,
-//                    'price'=>$amount,
-//                    'status'=>'Active',
-//                    'payment_id'=>$request->invoice_id
-//                ]);
-//            }
-//            elseif($type !== 'renew'){
+            if ($type == 'renew'){
+                $order = RenewDomain::create([
+                    'order_id' => $invoice,
+                    'customer_id' => Auth::user()->user_id,
+                    'domain_id' => $domainid,
+                    'register_date' => $registerDate,
+                    'expire_date' => $renew,
+                    'domain_type' => $type,
+                    'price' => $amount,
+                    'status' => 'In Progress',
 
-                Order::create([
-                    'order_id'=> $invoice,
-                    'customer_id'=>Auth::user()->user_id,
-                    'domain_id'=>$domainid,
-                    'register_date'=>$registerDate,
-                    'expire_date'=>$expireAt,
-                    'domain_type'=>$type,
-                    'price'=>$amount,
-                    'status'=>'In Progress',
-                    'payment_id'=>$request->invoice_id
                 ]);
 
-            PaymentHistory::create([
-                'payment_id' => $request->invoice_id,
-                'order_id' => $invoice,
-                'amount' => $amount,
-                'fee' => $response['fee'],
-                'charged_amount' => $response['charged_amount'],
-                'payment_method' => $response['payment_method'],
-                'sender_number' => $response['sender_number'],
-                'transaction_id' => $response['transaction_id'],
-                'date' => $response['date'],
-                'status' => $response['status'],
-            ]);
+                $payment = PaymentHistory::create([
+                    'payment_id' => $request->invoice_id,
+                    'renew_order_table' => $invoice,
+                    'amount' => $amount,
+                    'fee' => $response['fee'],
+                    'charged_amount' => $response['charged_amount'],
+                    'payment_method' => $response['payment_method'],
+                    'sender_number' => $response['sender_number'],
+                    'transaction_id' => $response['transaction_id'],
+                    'date' => $response['date'],
+                    'status' => $response['status'],
+                ]);
 
-//            }
-//            else {
-//                Order::where('domain_id', $domainid)->update([
-//                    'register_date' => $registerDate,
-//                    'expire_date' => $expireAt,
-//                ]);
-//            }
+                $order->update(['payment_id' => $payment->payment_id]);
+            }
 
-//            if ($type == 'renew') {
-//
-//                PaymentHistory::create([
-//                    'payment_id' => $request->invoice_id,
-//                    'renew_order_table' => $invoice,
-//                    'amount' => $amount,
-//                    'fee' => $response['fee'],
-//                    'charged_amount' => $response['charged_amount'],
-//                    'payment_method' => $response['payment_method'],
-//                    'sender_number' => $response['sender_number'],
-//                    'transaction_id' => $response['transaction_id'],
-//                    'date' => $response['date'],
-//                    'status' => $response['status'],
-//
-//                ]);
-//            }
-//            else{
+            else {
+                $order = Order::create([
+                    'order_id' => $invoice,
+                    'customer_id' => Auth::user()->user_id,
+                    'domain_id' => $domainid,
+                    'register_date' => $registerDate,
+                    'expire_date' => $expireAt,
+                    'domain_type' => $type,
+                    'price' => $amount,
+                    'status' => 'In Progress',
 
-//            }
+                ]);
+
+                $payment = PaymentHistory::create([
+                    'payment_id' => $request->invoice_id,
+                    'order_id' => $invoice,
+                    'amount' => $amount,
+                    'fee' => $response['fee'],
+                    'charged_amount' => $response['charged_amount'],
+                    'payment_method' => $response['payment_method'],
+                    'sender_number' => $response['sender_number'],
+                    'transaction_id' => $response['transaction_id'],
+                    'date' => $response['date'],
+                    'status' => $response['status'],
+                ]);
+
+                $order->update(['payment_id' => $payment->payment_id]);
+            }
 //            dd($response['metadata']['invoice_id']);
             $invoice = $response['metadata']['invoice_id'];
 //            dd($invoice);
@@ -219,12 +205,23 @@ class UddoktapayController extends Controller {
 
     public function invoice($id)
     {
-        $order = Order::where('orders.order_id',$id)
-            ->join('domains','domains.domain_id','=','orders.domain_id')
-            ->join('company_infos','company_infos.user_id','=','orders.customer_id')
-            ->join('payment_histories','payment_histories.order_id','=','orders.order_id')
-            ->first();
-        return view('user.invoice',['order'=>$order]);
+        $type = session('type');
+        if ($type == 'renew'){
+            $order = RenewDomain::where('renew_domains.order_id',$id)
+                ->join('domains','domains.domain_id','=','renew_domains.domain_id')
+                ->join('company_infos','company_infos.user_id','=','renew_domains.customer_id')
+                ->join('payment_histories','payment_histories.renew_order_table','=','renew_domains.order_id')
+                ->first();
+            return view('user.invoice',['order'=>$order]);
+        }
+        else {
+            $order = Order::where('orders.order_id', $id)
+                ->join('domains', 'domains.domain_id', '=', 'orders.domain_id')
+                ->join('company_infos', 'company_infos.user_id', '=', 'orders.customer_id')
+                ->join('payment_histories', 'payment_histories.order_id', '=', 'orders.order_id')
+                ->first();
+            return view('user.invoice', ['order' => $order]);
+        }
     }
 
     /**
